@@ -148,7 +148,7 @@ Distribution of Key Features (Histograms)
 * **Purpose :** This is crucial for selecting the best predictive features. A value of \+1 means a perfect positive correlation (if one goes up, the other goes up).   
 * **Insights :** The heatmap confirms a very high positive correlation between solar\_irradiance and solar\_output, and a strong positive correlation between wind\_speed and wind\_output. This confirms our primary features are excellent predictors. 
 
-![][image3]  
+![](https://github.com/DhammadeepRamteke/hybrid-microgrid-controller/blob/4a548b43781b83a500383ca3e2c631c49aa50c98/Week%201/correlation_heatmap.png)  
 Feature Correlation Heatmap
 
 ### **Step 2.7 : Final NaN Handling & Export** 
