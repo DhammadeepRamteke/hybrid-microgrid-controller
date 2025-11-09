@@ -139,7 +139,7 @@ Target Variable Time-Series (Full Year)
 * We plot histograms for our primary predictors (solar\_irradiance, wind\_speed, temperature) and load\_demand.   
 * **Insights :** This helps us understand the "shape" of our data. solar\_irradiance clearly shows a "bimodal" distribution, with a large spike at 0 (representing all nighttime hours) and a second peak for daylight hours. 
 
-![][image2]  
+![](https://github.com/DhammadeepRamteke/hybrid-microgrid-controller/blob/71385edc43ec38e24c5614c1e52f554fbb86611a/Week%201/feature_distributions.png) 
 Distribution of Key Features (Histograms)
 
 #### **C. Feature Correlation Heatmap :** 
