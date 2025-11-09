@@ -131,7 +131,7 @@ Dataset Column Breakdown
 * We plot our three target variables—load\_demand, solar\_output, and wind\_output—against time.   
 * **Insights :** The graph confirms distinct cyclical patterns. Load Demand shows daily peaks and valleys. Solar Output shows a clear daily pattern (zero at night, peaking at noon). Wind Output appears much more stochastic (random) and less predictable. 
 
-[](https://github.com/DhammadeepRamteke/hybrid-microgrid-controller/blob/bc895a28d14c6b6ceb722d53969ad176643fde38/Week%201/target_variables.png)
+![image 1](https://github.com/DhammadeepRamteke/hybrid-microgrid-controller/blob/bc895a28d14c6b6ceb722d53969ad176643fde38/Week%201/target_variables.png)
 Target Variable Time-Series (Full Year)
 
 #### **B. Distribution of Key Features :** 
