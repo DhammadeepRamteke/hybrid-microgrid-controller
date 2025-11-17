@@ -4,6 +4,10 @@ import numpy as np
 import joblib
 import plotly.graph_objects as go
 
+import os
+# FIX: Force the app to use the current folder as the working directory
+os.chdir(os.path.dirname(os.path.abspath(__file__)))
+
 # --- 1. SETUP & CONFIGURATION ---
 st.set_page_config(page_title="Smart Microgrid Controller", layout="wide")
 
@@ -144,3 +148,4 @@ if st.sidebar.button("Run Simulation"):
 
 else:
     st.info("Adjust parameters on the sidebar and click 'Run Simulation'")
+
