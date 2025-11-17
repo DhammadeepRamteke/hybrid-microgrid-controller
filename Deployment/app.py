@@ -3,8 +3,8 @@ import pandas as pd
 import numpy as np
 import joblib
 import plotly.graph_objects as go
-
 import os
+
 # FIX: Force the app to use the current folder as the working directory
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
@@ -40,7 +40,6 @@ except FileNotFoundError as e:
     st.stop()
 
 # --- 3. DEFINE THE 21 FEATURES (Exact Order from Training) ---
-# Based on your processed_dataset.csv inspection
 FEATURE_COLS = [
     'solar_irradiance', 'wind_speed', 'temperature', 'humidity', 'pressure',
     'grid_frequency', 'grid_voltage', 'grid_exchange', 'battery_soc',
@@ -58,47 +57,34 @@ selected_month = st.sidebar.selectbox("Month", list(range(1, 13)), index=10) # D
 selected_hour = st.sidebar.slider("Time of Day (Hour)", 0, 23, 12)
 
 st.sidebar.subheader("Weather Conditions")
-# We use default values from the dataset for the sliders start point if possible, else static defaults
 temp_input = st.sidebar.slider("Temperature (°C)", -10.0, 50.0, 25.0)
 wind_input = st.sidebar.slider("Wind Speed (m/s)", 0.0, 30.0, 5.0)
 irradiance_input = st.sidebar.slider("Solar Irradiance (W/m²)", 0.0, 1200.0, 500.0)
 
 # --- 5. PREDICTION LOGIC ---
 def get_prediction_input(month, hour, temp, wind, irr):
-    # Step 1: Filter the dataset to find a historical row that matches this Month/Hour
-    # This gives us realistic values for the "hard" features like lags and battery state
     match = df_ref[(df_ref['month'] == month) & (df_ref['hour'] == hour)]
     
     if match.empty:
-        # Fallback: If no exact match, take the average of the whole month
         base_row = df_ref[df_ref['month'] == month].mean().to_frame().T
     else:
-        # Take the first matching row
         base_row = match.iloc[0:1].copy()
     
-    # Step 2: Overwrite the user-controlled variables
     base_row['temperature'] = temp
     base_row['wind_speed'] = wind
     base_row['solar_irradiance'] = irr
     
-    # Ensure we only keep the 21 features the model expects, in the right order
     input_data = base_row[FEATURE_COLS]
-    
     return input_data
 
 if st.sidebar.button("Run Simulation"):
     # Prepare Input
     input_df = get_prediction_input(selected_month, selected_hour, temp_input, wind_input, irradiance_input)
     
-    # Scale Input (using the scaler loaded from week 1)
-    # Note: Ensure your scaler was fitted on these exact 21 columns. 
-    # If the scaler complains about shape, we might skip scaling or fit a new one. 
-    # For now, we try-catch it.
+    # Scale Input
     try:
         input_scaled = scaler.transform(input_df)
     except ValueError:
-        # Fallback if scaler expects different columns (common issue), we pass raw data
-        # Trees (XGBoost/RF) handle raw data well usually.
         input_scaled = input_df
 
     # Predict
@@ -134,7 +120,7 @@ if st.sidebar.button("Run Simulation"):
     fig.update_layout(barmode='group', title="Power Balance (kW)", height=400)
     st.plotly_chart(fig, use_container_width=True)
     
-    # Gauge for Net Energy
+    # Gauge
     fig_gauge = go.Figure(go.Indicator(
         mode = "gauge+number",
         value = net_energy,
@@ -148,4 +134,3 @@ if st.sidebar.button("Run Simulation"):
 
 else:
     st.info("Adjust parameters on the sidebar and click 'Run Simulation'")
-
